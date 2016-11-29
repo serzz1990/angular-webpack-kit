@@ -58,9 +58,7 @@ var APP = angular.module('APP', [
 
 APP
 	.service('Auth', require('services/auth'))
-	.service('User', require('services/user'))
-	.service('Errors', require('services/errors'));
-
+	.service('User', require('services/user'));
 
 /*
  |--------------------------------------------------------------------------
@@ -69,6 +67,7 @@ APP
  */
 
 APP.config(['$routeProvider', '$locationProvider', require('./routes')]);
+
 
 
 /*

@@ -20,10 +20,10 @@ module.exports = function (APP) {
 	 */
 	APP.run(['$http', 'CSRFTOKEN', function ($http, CSRFTOKEN) {
 
-		//$http.defaults.headers.put['Content-Type']  = 'application/x-www-form-urlencoded;charset=utf-8';
+		$http.defaults.headers.put['Content-Type']  = 'application/x-www-form-urlencoded;charset=utf-8';
 		//$http.defaults.headers.put['X-CSRF-TOKEN']  = CSRFTOKEN;
 
-		//$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+		$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 		//$http.defaults.headers.post['X-CSRF-TOKEN'] = CSRFTOKEN;
 
 
@@ -31,5 +31,13 @@ module.exports = function (APP) {
 
 	}]);
 
+
+	APP.service('authInterceptor', require('services/auth-interceptor'));
+
+	APP.config(['$httpProvider', function ($httpProvider) {
+
+		$httpProvider.interceptors.push('authInterceptor');
+
+	}]);
 
 };
