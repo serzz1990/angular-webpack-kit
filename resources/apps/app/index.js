@@ -57,6 +57,7 @@ var APP = angular.module('APP', [
  */
 
 APP
+    .service('authInterceptor', require('services/auth-interceptor'))
 	.service('Auth', require('services/auth'))
 	.service('User', require('services/user'));
 
