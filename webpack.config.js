@@ -9,12 +9,15 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const AssetsPlugin = require('assets-webpack-plugin');
 const poststylus = require('poststylus');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 var config = {};
 
 let context = path.join(process.cwd(), 'resources');
 let node_modules = path.join(process.cwd(), 'node_modules');
+let output = process.cwd() + '/public/';
+
 
 config.context = context;
 
@@ -26,7 +29,7 @@ config.entry  =  {
 
 
 config.output = {
-	path: process.cwd() + '/public/apps/',
+	path: output + 'apps/',
 	publicPath: '/apps/',
 	//filename : '[name].[hash].js'
 	filename : '[name].js'
@@ -73,6 +76,8 @@ config.module = {
 	]
 };
 
+
+
 config.htmlLoader = {
 	attrs: ['md-icon:md-svg-src', 'md-icon:md-svg-icon', 'img:src'],
 	root: context
@@ -89,6 +94,17 @@ config.stylus = {
 };
 
 config.plugins = [];
+
+config.plugins.push(
+	new CopyWebpackPlugin([
+		{from: node_modules + '/angular/angular.min.js'},
+		//{from: node_modules + '/angular-material/angular-material.min.js'},
+		{from: node_modules + '/angular-route/angular-route.min.js'},
+		//{from: node_modules + '/angular-animate/angular-animate.min.js'},
+		//{from: node_modules + '/angular-aria/angular-aria.min.js'}
+	])
+);
+
 
 if (!PRODUCTION) {
 	config.plugins.push(new webpack.NoErrorsPlugin());
