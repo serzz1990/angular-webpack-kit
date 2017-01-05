@@ -20,7 +20,7 @@ var APP = angular.module('APP', [
 	//'ngMaterial',
 	//'ngAria',
 	//'ngMessages',
-	'ngRoute'
+	'ui.router'
 ]);
 
 
@@ -51,8 +51,8 @@ var APP = angular.module('APP', [
 
 APP
     .service('authInterceptor', require('services/auth-interceptor'))
-	.service('Auth', require('services/auth'))
-	.service('User', require('services/user'));
+    //.service('Auth', require('services/auth'))
+    //.service('User', require('services/user'));
 
 
 /*

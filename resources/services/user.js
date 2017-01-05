@@ -3,7 +3,9 @@
 var _private = {};
 
 
-module.exports = ['$http', '$q', function ($http, $q) {
+module.exports = function ($http, $q) {
+
+	'ngInject';
 
 	class Service {
 
@@ -35,9 +37,9 @@ module.exports = ['$http', '$q', function ($http, $q) {
 
 	}
 
-	return new Service;
+	return Service;
 
-}];
+};
 
 
 

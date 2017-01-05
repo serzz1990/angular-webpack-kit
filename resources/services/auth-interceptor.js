@@ -1,6 +1,8 @@
 'use strict';
 
-module.exports = ['$q', '$location', function ($q, $location) {
+module.exports = function ($q, $location) {
+
+	'ngInject';
 
 	this.responseError = function(response) {
 
@@ -12,4 +14,4 @@ module.exports = ['$q', '$location', function ($q, $location) {
 
 	};
 
-}];
+};
