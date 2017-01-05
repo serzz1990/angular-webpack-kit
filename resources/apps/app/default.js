@@ -17,7 +17,9 @@ module.exports = function (APP) {
 	 | Set default configs
 	 |--------------------------------------------------------------------------
 	 */
-	APP.run(['$http', 'CSRFTOKEN', function ($http, CSRFTOKEN) {
+	APP.run(function ($http, CSRFTOKEN) {
+
+		'ngInject';
 
 		$http.defaults.headers.put['Content-Type']  = 'application/x-www-form-urlencoded;charset=utf-8';
 
@@ -30,13 +32,15 @@ module.exports = function (APP) {
 
 		$http.defaults.transformRequest = data => (angular.isObject( data ) && String( data ) !== '[object File]' ? angular.toParam( data ) : data);
 
-	}]);
+	});
 
 
-	APP.config(['$httpProvider', function ($httpProvider) {
+	APP.config(function ($httpProvider) {
+
+		'ngInject';
 
 		$httpProvider.interceptors.push('authInterceptor');
 
-	}]);
+	});
 
 };

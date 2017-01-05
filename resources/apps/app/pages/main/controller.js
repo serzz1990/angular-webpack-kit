@@ -1,7 +1,10 @@
 'use strict';
 
 
-module.exports = ['$scope', function ($scope) {
+module.exports = function ($scope) {
 
+	'ngInject';
 
-}];
+	console.log('$scope', $scope);
+
+};

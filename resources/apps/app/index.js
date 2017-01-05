@@ -12,13 +12,6 @@ import './styles.styl';
 
 /*
  |--------------------------------------------------------------------------
- | Require APP modules
- |--------------------------------------------------------------------------
- */
-
-
-/*
- |--------------------------------------------------------------------------
  | Create APP
  |--------------------------------------------------------------------------
  */
@@ -61,13 +54,14 @@ APP
 	.service('Auth', require('services/auth'))
 	.service('User', require('services/user'));
 
+
 /*
  |--------------------------------------------------------------------------
  | Set app routes
  |--------------------------------------------------------------------------
  */
 
-APP.config(['$routeProvider', '$locationProvider', require('./routes')]);
+require('./routes')(APP);
 
 
 
@@ -85,6 +79,7 @@ require('./default')(APP);
  | Set theme (for angular-material)
  |--------------------------------------------------------------------------
  */
+
 //require('./material-theme')(APP);
 
 
@@ -95,15 +90,17 @@ require('./default')(APP);
  |--------------------------------------------------------------------------
  */
 
-APP.run(['$rootScope', '$location', function ($rootScope, $location) {
+APP.run(function ($rootScope, $location) {
 
-	$rootScope.$on( '$routeChangeStart', function (){});
+    'ngInject';
+
+    $rootScope.$on( '$routeChangeStart', function (){});
 
 	$rootScope.$on( '$routeChangeSuccess', function (){});
 
 	$rootScope.$on( '$routeChangeStart', function (){});
 
-}]);
+});
 
 
 /*

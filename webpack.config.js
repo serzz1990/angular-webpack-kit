@@ -41,7 +41,7 @@ config.module = {
 
 		{
 			test   : /\.js$/,
-			loaders: ['babel?presets[]=es2015'],
+			loaders: ['ng-annotate', 'babel?presets[]=es2015'],
 			include: [
 				context,
 				node_modules + '/angular-crop-image'
@@ -99,6 +99,7 @@ config.plugins.push(
 	new CopyWebpackPlugin([
 		{from: node_modules + '/angular/angular.min.js'},
 		//{from: node_modules + '/angular-material/angular-material.min.js'},
+		//{from: node_modules + '/angular-material/angular-material.min.css'},
 		{from: node_modules + '/angular-route/angular-route.min.js'},
 		//{from: node_modules + '/angular-animate/angular-animate.min.js'},
 		//{from: node_modules + '/angular-aria/angular-aria.min.js'}
@@ -127,7 +128,7 @@ if (PRODUCTION) {
 
 
 config.plugins.push(
-	new ExtractTextPlugin('[name].css')
+	new ExtractTextPlugin('[name].min.css')
 );
 
 

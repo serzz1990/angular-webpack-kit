@@ -2,7 +2,9 @@
 
 module.exports = function (APP) {
 
-	APP.config(['$mdThemingProvider', function ($mdThemingProvider) {
+	APP.config(function ($mdThemingProvider) {
+
+		'ngInject';
 
 		//$mdThemingProvider.disableTheming();
 
@@ -11,6 +13,6 @@ module.exports = function (APP) {
 			//.accentPalette('deep-purple');
 
 
-	}]);
+	});
 
 };
