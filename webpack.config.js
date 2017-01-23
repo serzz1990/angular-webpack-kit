@@ -37,11 +37,14 @@ config.output = {
 
 
 config.module = {
-	loaders : [
+	rules : [
 
 		{
 			test   : /\.js$/,
-			loaders: ['ng-annotate', 'babel?presets[]=es2015'],
+			use    : [
+				{loader: 'ng-annotate-loader'},
+				{loader: 'babel-loader', options: {presets: ["es2015"]}}
+			],
 			include: [
 				context,
 				node_modules + '/angular-crop-image'
@@ -50,27 +53,44 @@ config.module = {
 
 		{
 			test   : /\.styl$/,
-			loader: ExtractTextPlugin.extract('css?sourceMap!stylus?sourceMap&resolve url')
+			loader : ExtractTextPlugin.extract({
+				loader: ['css-loader', 'stylus-loader']
+			})
+
 		},
 
 		{
 			test   : /\.html$/,
-			loaders: ['html']
+			use    : [
+				{
+					loader: 'html-loader',
+					options: {
+						attrs: ['md-icon:md-svg-src', 'md-icon:md-svg-icon', 'img:src'],
+						root: context
+					}
+				}
+			]
 		},
 
 		{
 			test   : /\.css/,
-			loaders: ['css']
+			use    : [
+				{loader: 'css-loader'}
+			]
 		},
 
 		{
 			test   : /\.json$/,
-			loaders: ['json']
+			use    : [
+				{loader: 'json-loader'}
+			]
 		},
 
 		{
 			test   : /\.jpg$|\.png$|\.svg$/i,
-			loaders: ['file?name=img/[hash].[ext]']
+			use    : [
+				{loader: 'file?name=img/[hash].[ext]'}
+			]
 		}
 
 	]
@@ -78,22 +98,25 @@ config.module = {
 
 
 
-config.htmlLoader = {
-	attrs: ['md-icon:md-svg-src', 'md-icon:md-svg-icon', 'img:src'],
-	root: context
-};
 
-config.stylus = {
-	use: [
-		poststylus(['autoprefixer'])
-	],
-	'include css': true,
-	import: [
-		//"~assets/styles/variables/main.styl"
-	]
-};
 
 config.plugins = [];
+
+config.plugins.push(
+	new webpack.LoaderOptionsPlugin({
+		options: {
+			stylus: {
+				'sourceMap'  : true,
+				'include css': true,
+				'resolve url': true,
+				use: [poststylus(['autoprefixer'])],
+				import: [
+					//"~assets/styles/variables/main.styl"
+				]
+			}
+		}
+	})
+);
 
 config.plugins.push(
 	new CopyWebpackPlugin([
@@ -106,25 +129,20 @@ config.plugins.push(
 	])
 );
 
-
-if (!PRODUCTION) {
-	config.plugins.push(new webpack.NoErrorsPlugin());
-}
+//
+//if (!PRODUCTION) {
+//	config.plugins.push(new webpack.NoErrorsPlugin());
+//}
 
 if (PRODUCTION) {
-	config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-		compress: {
-			warnings : false
-		}
-	}));
+	config.plugins.push(
+		new webpack.optimize.UglifyJsPlugin({
+			sourceMap: true,
+			compress: {warnings : false}
+		}),
+		new webpack.LoaderOptionsPlugin({minimize: true})
+	);
 }
-
-
-//config.plugins.push(
-//	new webpack.optimize.CommonsChunkPlugin({
-//		name: 'common'
-//	})
-//);
 
 
 config.plugins.push(
@@ -133,10 +151,7 @@ config.plugins.push(
 
 
 config.plugins.push(
-	new ProgressBarPlugin({
-		complete : '#',
-		width: 100
-	})
+	new ProgressBarPlugin({complete : '#', width: 100})
 );
 
 
@@ -146,21 +161,12 @@ config.plugins.push(
 //}));
 
 config.resolve = {
-	moduleDirectories: ['node_modules'],
-	root: [
+	modules: [
 		context,
 		path.join(context, 'modules'),
 		process.cwd() + '/node_modules/'
 	],
-	extensions : ['', '.js', '.css','.styl', '.html', '.json', '.png', '.jpg'],
-	alias: {}
-};
-
-
-config.resolveLoader = {
-	moduleDirectories: ['node_modules'],
-	moduleTemplates  : ['*-loader'],
-	extensions       : ['', '.js']
+	extensions : ['.js', '.css','.styl', '.html', '.json', '.png', '.jpg'],
 };
 
 

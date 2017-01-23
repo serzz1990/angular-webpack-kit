@@ -1,7 +1,7 @@
 'use strict';
 
 // WIKI: https://github.com/angular-ui/ui-router/wiki
-//https://ui-router.github.io/docs/0.3.1/#/api/ui.router
+// https://ui-router.github.io/docs/0.3.1/#/api/ui.router
 
 module.exports = function (APP) {
 
@@ -22,7 +22,24 @@ module.exports = function (APP) {
 				}
 			})
 
-		//$urlRouterProvider.otherwise('/otherwise');
+			.state('auth', {
+				abstract: true,
+				url: '/auth',
+				template: require('./layouts/auth/template.html'),
+				controller: require('./layouts/auth/controller.js')
+			})
+
+			.state('auth.login', {
+				url: '/login',
+				views: {
+					'content': {
+						template:  require('./pages/auth/login/template.html'),
+						controller:  require('./pages/auth/login/controller.js')
+					}
+				}
+			})
+
+		$urlRouterProvider.otherwise('/');
 
 	});
 
